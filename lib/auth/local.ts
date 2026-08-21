@@ -30,17 +30,36 @@ export const {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) return null
+        if (!credentials?.email || !credentials?.password) {
+          console.log('🔐 [AUTH] Missing email or password')
+          return null
+        }
 
+        console.log('🔐 [AUTH] Attempting login for:', credentials.email as string)
         const user = await db.query.users.findFirst({
           where: eq(users.email, credentials.email as string),
         })
 
-        if (!user?.passwordHash) return null
+        if (!user) {
+          console.log('🔐 [AUTH] User not found:', credentials.email as string)
+          return null
+        }
 
+        if (!user.passwordHash) {
+          console.log('🔐 [AUTH] User has no password hash:', credentials.email as string)
+          return null
+        }
+
+        console.log('🔐 [AUTH] Comparing password for user:', user.email)
         const valid = await bcrypt.compare(credentials.password as string, user.passwordHash)
-        if (!valid) return null
+        console.log('🔐 [AUTH] Password comparison result:', valid)
 
+        if (!valid) {
+          console.log('🔐 [AUTH] Invalid password for user:', credentials.email as string)
+          return null
+        }
+
+        console.log('🔐 [AUTH] Login successful for:', user.email)
         return { id: user.id, email: user.email }
       },
     }),
