@@ -13,7 +13,15 @@ next.user-config.*
 # Common ignores
 node_modules
 .next/
-.DS_Store.env.local
+
+# OS junk
+.DS_Store
+Thumbs.db
+Desktop.ini
+ehthumbs.db
+.Spotlight-V100
+.Trashes
+._*
 
 # SQLite local database
 data/*.db

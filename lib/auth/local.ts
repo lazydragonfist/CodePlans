@@ -5,7 +5,7 @@ import bcrypt from 'bcryptjs'
 import { NextResponse, type NextRequest } from 'next/server'
 import { eq } from 'drizzle-orm'
 import { db as _db } from '@/lib/db'
-import { users } from '@/lib/db/schema.sqlite'
+import { users } from '@/lib/db/schema'
 import type { AuthAdapter } from './types'
 
 // local.ts is only loaded in SQLite mode. Cast db to any to avoid pg/sqlite

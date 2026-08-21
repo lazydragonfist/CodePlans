@@ -34,3 +34,16 @@ export const config = {
   },
   registration: (process.env.REGISTRATION ?? 'open') as RegistrationMode,
 } as const
+
+// Debug logging — helps troubleshoot config issues
+if (process.env.NODE_ENV === 'production') {
+  console.log('🔧 [CONFIG] Production config loaded:', {
+    HOST_MODE: config.hostMode,
+    AUTH_PROVIDER: config.auth.provider,
+    DB_PROVIDER: config.db.provider,
+    DATABASE_URL: config.db.url?.substring(0, 50) + '***REDACTED***',
+    AUTH_SECRET: process.env.AUTH_SECRET ? '***SET***' : '***NOT SET***',
+    AUTH_URL: process.env.AUTH_URL || '***NOT SET***',
+    NODE_ENV: process.env.NODE_ENV,
+  })
+}
