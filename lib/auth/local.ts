@@ -66,6 +66,17 @@ export const {
   ],
   session: { strategy: 'jwt' },
   pages: { signIn: '/login' },
+  cookies: {
+    sessionToken: {
+      name: process.env.NODE_ENV === 'production' ? '__Secure-authjs.session-token' : 'authjs.session-token',
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        secure: process.env.NODE_ENV === 'production' && process.env.AUTH_URL?.startsWith('https'),
+      },
+    },
+  },
   callbacks: {
     jwt({ token, user }) {
       if (user?.id) token.id = user.id
